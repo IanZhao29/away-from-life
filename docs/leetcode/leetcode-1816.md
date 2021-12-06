@@ -1,13 +1,13 @@
 ---
-title: 详解 CSS-Flex 布局
+title: Leetcode 每日一题之我要吊打算法题 Day1 1816：截断句子
 date: 2021-12-6
-description: CSS-Flex布局 一篇搞定
+description: Leetcode 每日一题之我要吊打算法题 Day1 1816：截断句子
 categories:
-- 设计
+- Leetcode
 - 前端
-- css
+- 每日打卡
 tags:
-- css
+- 算法
 - 代码
 - 编程
 ---
