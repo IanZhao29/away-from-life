@@ -1,0 +1,15 @@
+{
+  "name": "AwayFromLife",
+  "version": "1.0.0",
+  "author": "Jian Wei Zhao",
+  "scripts": {
+    "dev": "vuepress dev . --open --host \"localhost\"",
+    "build": "vuepress build ."
+  },
+  "devDependencies": {
+    "kanbanniang": "^0.2.10",
+    "vuepress": "1.8.2",
+    "vuepress-theme-reco": "1.6.6"
+  },
+  "description": "away-from-your-life"
+}
