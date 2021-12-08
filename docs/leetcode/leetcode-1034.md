@@ -1,3 +1,16 @@
+---
+title: Leetcode 每日一题之我要吊打算法题 Day2 1034：边界着色
+date: 2021-12-7
+description: Leetcode 每日一题之我要吊打算法题 Day2 1034：边界着色
+categories:
+- Leetcode
+- 前端
+- 每日打卡
+tags:
+- 算法
+- 代码
+- 编程
+---
 # Leetcode 每日一题 1034.边界着色
 
 ## 题目内容：
