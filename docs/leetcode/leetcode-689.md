@@ -1,7 +1,7 @@
 ---
-title: Leetcode 每日一题之我要吊打算法题 Day2 1034：边界着色
-date: 2021-12-7
-description: Leetcode 每日一题之我要吊打算法题 Day2 1034：边界着色
+title: Leetcode 每日一题之我要吊打算法题 Day3 689：三个无重叠子数组的最大和
+date: 2021-12-8
+description: Leetcode 每日一题之我要吊打算法题 Day3 689：三个无重叠子数组的最大和
 categories:
 - Leetcode
 - 前端
@@ -115,4 +115,97 @@ FATAL ERROR: Scavenger: semi-space copy Allocation failed - JavaScript heap out 
 滑动窗口是数组/字符串问题中常用的抽象概念。窗口通常是指在数组/字符串中由开始和结束索引定义的一系列元素的集合，即闭区间 [i,j][i,j]。而滑动窗口是指可以将两个边界向某一方向「滑动」的窗口。例如，我们将 [i,j][i,j] 向右滑动 11 个元素，它将变为 [i+1,j+1][i+1,j+1]。
 
 ### 单个子数组的最大和
+
+滑动窗口是数组/字符串问题中常用的抽象概念。窗口通常是指在数组/字符串中由开始和结束索引定义的一系列元素的集合，即闭区间 [i,j][i,j]。而滑动窗口是指可以将两个边界向某一方向「滑动」的窗口。例如，我们将 [i,j][i,j] 向右滑动 11 个元素，它将变为 [i+1,j+1][i+1,j+1]。
+
+每次i的值增加，我们就增加最远位置的值，然后判断窗口大小是否超出了k，如果超出了，就把最近位置的值剪掉。最后用一个值记录窗口经过的最大的值，这样就解决了单个窗口的滑动问题。
+
+```javascript
+var maxSumOfOneSubarray = function(nums, k) {
+    let ans = [];
+    let sum1 = 0, maxSum1 = 0;
+    for (let i = 0; i < nums.length; ++i) {
+        sum1 += nums[i];
+        if (i >= k - 1) {
+            if (sum1 > maxSum1) {
+                maxSum1 = sum1;
+                ans = [i - k + 1];
+            }
+            sum1 -= nums[i - k + 1];
+        }
+    }
+    return ans;
+};
+```
+
+### 两个无重叠子数组的最大和
+
+增加一个滑动窗口，使第一个窗口从 [0, k-1] 滑动，第二个窗口从[k, 2k-1] 滑动，
+
+我们让两个窗口挨在一起滑动，先记录第一个窗口的最大值和它的位置，然后根据分开记录两个合起来的最大值，maxSum1 + sum2 = maxSum12，这样找出来的一定是最大的，因为对于每个比较大的maxSum1， 我们都让它和可能的sum2相加了。
+
+```javascript
+const maxSumOfTwoSubarrays = (nums, k) => {
+    const ans = [0, 0];
+    let sum1 = 0, maxSum1 = 0, maxSum1Idx = 0;
+    let sum2 = 0, maxSum12 = 0;
+    for (let i = k; i < nums.length; ++i) {
+        sum1 += nums[i - k];
+        sum2 += nums[i];
+        if (i >= k * 2 - 1) {
+            if (sum1 > maxSum1) {
+                maxSum1 = sum1;
+                maxSum1Idx = i - k * 2 + 1;
+            }
+            if (maxSum1 + sum2 > maxSum12) {
+                maxSum12 = maxSum1 + sum2;
+                ans[0] = maxSum1Idx;
+                ans[1] = i - k + 1;
+            }
+            sum1 -= nums[i - k * 2 + 1];
+            sum2 -= nums[i - k + 1];
+        }
+    }
+    return ans;
+}
+```
+
+### 题解：
+
+增加到三个其实和之前一样，只需要继续增加一个窗口，记录下前两个和的最大值和分别所在的位置，然后让三个窗口挨在一起滑动。
+
+```javascript
+const maxSumOfThreeSubarrays = (nums, k) => {
+    const ans = [0, 0, 0];
+    let sum1 = 0, maxSum1 = 0, maxSum1Idx = 0;
+    let sum2 = 0, maxSum12 = 0, maxSum12Idx1 = 0, maxSum12Idx2 = 0;
+    let sum3 = 0, maxTotal = 0;
+    for (let i = k * 2; i < nums.length; ++i) {
+        sum1 += nums[i - k * 2];
+        sum2 += nums[i - k];
+        sum3 += nums[i];
+        if (i >= k * 3 - 1) {
+            if (sum1 > maxSum1) {
+                maxSum1 = sum1;
+                maxSum1Idx = i - k * 3 + 1;
+            }
+            if (maxSum1 + sum2 > maxSum12) {
+                maxSum12 = maxSum1 + sum2;
+                maxSum12Idx1 = maxSum1Idx;
+                maxSum12Idx2 = i - k * 2 + 1;
+            }
+            if (maxSum12 + sum3 > maxTotal) {
+                maxTotal = maxSum12 + sum3;
+                ans[0] = maxSum12Idx1;
+                ans[1] = maxSum12Idx2;
+                ans[2] = i - k + 1;
+            }
+            sum1 -= nums[i - k * 3 + 1];
+            sum2 -= nums[i - k * 2 + 1];
+            sum3 -= nums[i - k + 1];
+        }
+    }
+    return ans;
+}
+```
 
