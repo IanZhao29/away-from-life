@@ -42,7 +42,7 @@ tags:
 
 ## UML类图:
 
-![TemplateMethodPattern](./img/TemplateMethodPattern.png)
+![UML类图](../../.vuepress/public/img/TemplateMethodPattern.png)
 
 ## 代码实现：
 

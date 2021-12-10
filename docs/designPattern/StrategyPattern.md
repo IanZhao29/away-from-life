@@ -47,7 +47,7 @@ tags:
 
 ## UML类图
 
-![img.png](./img/strategyPattern.png)
+![UML类图](../../.vuepress/public/img/statePattern.jpg)
 
 ## 代码实现
 
