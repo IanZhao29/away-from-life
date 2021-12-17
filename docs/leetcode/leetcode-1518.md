@@ -1,6 +1,6 @@
 ---
 title: Leetcode 每日一题之我要吊打算法题 Day12 1518. 换酒问题
-date: 2021-12-16
+date: 2021-12-17
 description: Leetcode 每日一题之我要吊打算法题 Day11 1610. 换酒问题
 categories:
 - Leetcode
@@ -90,7 +90,7 @@ var numWaterBottles = function(numBottles, numExchange) {
 
 ### 运行结果
 
-![](../../.vuepress/public/img/leetcode-myresult-1518.png)
+![myresult](../../.vuepress/public/img/leetcode-myresult-1518.png)
 
 时间100%还不戳
 
@@ -101,6 +101,8 @@ var numWaterBottles = function(numBottles, numExchange) {
 记一开始有 *b* 瓶酒，*e* 个空瓶换一瓶酒。
 
 ### 方法一：模拟
+
+![offical1](../../.vuepress/public/img/leetcode-offical1-1518.png)
 
 ```javascript
 var numWaterBottles = function(numBottles, numExchange) {
@@ -117,6 +119,8 @@ var numWaterBottles = function(numBottles, numExchange) {
 ```
 
 ### 方法二：数学
+
+![offical2](../../.vuepress/public/img/leetcode-offical2-1518.png)
 
 ```javascript
 var numWaterBottles = function(numBottles, numExchange) {
