@@ -389,3 +389,195 @@ DNS大致工作过程
   - 情况1:查询的名字在该区域内部
   - 情况2:缓存（cashing）
 - 当与本地名字服务器不能解析名字时，联系根名字服务器顺着根TLD一直找到权威名字服务器
+
+DNS：保存资源记录（RR）的分布式数据库
+
+RR格式(name, value, type, ttl)
+
+- Type = A
+  - Name为主机
+  - Value为IP地址
+- Type = CNAME
+  - Name为规范名字的别名
+- Type = NS
+  - Name域名
+  - Value为该域名的权威服务器的域名
+- Type = MX
+  - Value为name对应的邮件服务器的名字
+
+DNS协议：查询和响应报文的报文格式相同
+
+攻击DNS
+
+- DDoS攻击
+  - 对根服务器进行流量轰炸攻击：发送大量ping
+    - 没有成功
+    - 原因1: 根目录服务器配置了流量过滤器，防火墙
+    - 原因2: Local DNS缓存了TLD服务器的IP地址
+  - 向TLD服务器流量轰炸攻击：发送大量查询
+    - 可能更危险
+    - 效果一般，大部分DNS缓存了TLD
+- 重定向攻击
+  - 中间人攻击
+    - 截获查询，伪造回答，从而攻击 某个(DNS回答指定的IP)站点
+  - DNS中毒
+    - 发送伪造的应答给DNS服务器，希望它能够缓存这个虚假的结果
+  - 技术上较困难:分布式截获和伪造
+- 利用DNS基础设施进行DDoS
+  - 伪造某个IP进行查询， 攻击这个目标IP
+  - 查询放大，响应报文比查询报文大
+  - 效果有限
+
+### P2P应用
+
+- 没有(或极少)一直运行的服务器
+- 任意端系统都可以直接通信
+- 利用peer的服务能力
+- Peer节点间歇上网，每次IP地址都有可能变化
+
+P2P两个问题：
+
+- 如何定位所需资源
+- 如何处理对等方的加入与离开
+
+解决方案：
+
+- 集中：用一种中心服务器处理每个peer的IP地址和内容
+
+  - 单点故障
+  - 性能瓶颈
+  - 侵犯版权
+
+- 分散：Gnutella:通过t泛洪建立对等方TCP连接，自己维持一张队等方列表
+
+  ![截屏2021-12-23 上午9.47.19](/Users/ian_zhao_29/Library/Application Support/typora-user-images/截屏2021-12-23 上午9.47.19.png)
+
+- 半分散：KaZaA: 组长机制，组员与其组长通信，组长与组长通信。
+
+  - 每个文件有一个散列标识码和一个描述符
+
+  - 客户端向其组长发送关键字查询
+
+  - 组长用匹配进行响应:
+
+    - 对每个匹配:元数据、散列标识码和IP地址
+
+  - 如果组长将查询转发给其他组长，其他组长也
+
+    以匹配进行响应
+
+  - 客户端选择要下载的文件
+
+    -  向拥有文件的对等方发送一个带散列标识码的 HTTP请求
+
+    ![截屏2021-12-23 上午9.51.12](/Users/ian_zhao_29/Library/Application Support/typora-user-images/截屏2021-12-23 上午9.51.12.png)
+
+### CDN
+
+A CDN is essentially a group of servers that are strategically placed across the globe with the purpose of accelerating the delivery of web content.
+
+- Manages servers that are geographically distributed over different locations
+- Stores the web content in its servers.
+- Attempts to direct each user to a server that is part of the CDN so as to deliver content quickly
+
+
+
+#### Enter Deep
+
+将CDN服务器深入到许多接入网
+
+更接近用户，数量多，离用户近，管理困难
+
+#### Bring Home
+
+部署在少数(10个左右)关键位置，如将服 务器簇安装于POP附近(离若干1stISP POP较近)
+
+采用租用线路将服务器簇连接起来
+
+#### 如何实现
+
+1. manifest文件
+2. 域名解析重定向
+
+### Socket编程
+
+Socket：应用进程与端到端传输协议(TCP或UDP)之间的门户
+
+#### TCP Socket
+
+从一个进程向另一个进程可靠地传输字节流
+
+1. 服务器进程必须先处于运行状态
+
+   1. 创建欢迎socket
+   2. 和本地端口捆绑
+   3. 在欢迎socket上阻塞式等待接收用户的连接
+
+2. 创建客户端本地套接字(隐式捆绑到本地port)
+
+   1. 指定服务器进程的IP地址和端口号，与服务器进程连接
+
+3. 当与客户端连接请求到来时
+
+   1. 服务器接受来自用户端的请求，解除阻塞式等待，返回一个新的socket（与欢迎socket不一样），与客户端通信
+      1. 允许服务器与多个客户端通信
+      2. 使用源IP和源端口来区分不同的客户端
+
+4. 连接API调用有效时，客户端P与服务器建立了TCP连接
+
+   ![截屏2021-12-23 下午2.05.22](/Users/ian_zhao_29/Library/Application Support/typora-user-images/截屏2021-12-23 下午2.05.22.png)
+
+#### UDP Socket
+
+![截屏2021-12-23 下午2.06.06](/Users/ian_zhao_29/Library/Application Support/typora-user-images/截屏2021-12-23 下午2.06.06.png)
+
+## Chapter 3
+
+### Transport-layer services
+
+- It provides logical communication between application processes running on different hosts
+- Transport protocols run in end systems
+  - 发送方将应用层的报 文分成报文段，然后传递给网络层
+  - 接收方将报文段重组 成报文，然后传递给应用层
+- More than one transport protocol available to apps
+  - TCP
+  - UDP
+
+On the sending side, the transport layer converts the application-layer messages (receives from a sending application process) into transport-layer packets, known as transport-layer segments in Internet terminology.
+
+This is done by (possibly) breaking the application messages into smaller chunks and adding a transport-layer header to each chunk to create the transport-layer segment.
+
+The transport layer then passes the segment to the network layer at the sending end system, where the segment is encapsulated within a network-layer packet (a datagram) and sent to the destination.
+
+On the receiving side, the network layer extracts the transport-layer segment from the datagram and passes the segment up to the transport layer. The transport layer then processes the received segment, making the data in the segment available to the receiving application
+
+#### Transport vs. Network Layer
+
+- Network Layer: Logical communication between hosts（主机之间的逻辑通信）
+- Transport Layer: Logical communication between processes（进程间的逻辑通信）
+  - Relies on, enhances, network layer services（依赖于网络层的服务进行，延时、带宽）
+  - 并对网络层的服务进行增强
+    - 数据丢失、顺序混乱、加密等
+
+We can recall that the Internet, and more generally a TCP/IP network, makes two distinct transport-layer protocols available to the application layer.
+
+- TCP: Provides a reliable, connection-oriented service to the invoking application（提供可靠，面向连接的服务给控制应用）
+- UDP: Provides a unreliable, connectionless service to the invoking application（提供不可靠，无连接的服务给控制应用）
+
+### Multiplexing and Demultiplexing
+
+- Multiplexing at sender: Handle data from multiple sockets, add transport header(later used for demultiplexing)（从多个套接字来自多个进程的报文，根据套接字对应的IP地址和端口号等信息对报文段用头部加以封装（该头部信息用于以后的解复用））
+- Demultiplexing at receiver: Use header info to deliver received segments to correct socket（根据报文段的头部信息中的IP地址和端口号将接收到的报文段发给正确的套接字（和对应的应用进程））
+
+解复用作用: TCP或者UDP实体采用哪些信息，将报文段的数据部分比特 交给正确的socket，从而交给正确的进程
+
+主机收到IP数据报：
+
+- 每个数据报有源IP地址和目标地址
+- 每个数据报承载一个传输层报文段
+- 每个报文段有一个源端口号和目标端口号(特定应用有著名的端口号)
+
+主机联合使用IP地址和端口号将报文段发送给合适的套接字
+
+#### 无连接（UDP）多路解复用
+
