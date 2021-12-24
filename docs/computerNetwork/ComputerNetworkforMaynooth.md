@@ -205,8 +205,6 @@ Throughput is the rate (bits/time unit) at which bits are transferred between se
    - 链路层交换机：链路层、物理层
    - 主机：所有层次
 
-11. 
-
 ## Chapter 2:
 
 ### Principles of Network Applications:
@@ -530,6 +528,16 @@ Socket：应用进程与端到端传输协议(TCP或UDP)之间的门户
 #### UDP Socket
 
 ![截屏2021-12-23 下午2.06.06](/Users/ian_zhao_29/Library/Application Support/typora-user-images/截屏2021-12-23 下午2.06.06.png)
+
+### 练习题
+
+#### P10.
+
+![截屏2021-12-24 下午4.44.00](/Users/ian_zhao_29/Library/Application Support/typora-user-images/截屏2021-12-24 下午4.44.00.png)
+
+#### P22 
+
+![截屏2021-12-24 下午5.04.35](/Users/ian_zhao_29/Library/Application Support/typora-user-images/截屏2021-12-24 下午5.04.35.png)
 
 ## Chapter 3
 
