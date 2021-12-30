@@ -125,13 +125,20 @@ while (a!=0){
 
 The precondition here is x ≥ 0, and postcondition is x = y.
 
+Solution: 
 
+1. Step 1: Rewrite the postcondition in the form Invariant and Not (Guard) 
+2. Step 2: Apply Hoare Logic rule for loops
+3. Step 3: Use Hoare rule for assign and ; to work out loop body (preservation) and initialisation (establishment) conditions 
+4. Step 4: Simplify and show equivalence (or implication) where two assertions are alongside each other. This is usually at the preconditions for where we establish the invariant before the loop (Establishment) and inside the loop (preservation).
+
+![](../../.vuepress/public/img/CS357JANUARY2020EXAMINATION3c.jpg)
 
 ## 4.
 
 ### (a) Explain the main difference between SAT solvers and SMT solvers.
 
-
+SAT solvers solve constraints involving(written in) propositional logic. SMT solvers can solve constraints involving propositional logic. Additionally it can solve constraints involving(written in) predicate logic with quantifiers.
 
 ### (b) Use Spec# annotations to write the pre/post condition(s) and loop invariant(s) for the following program.
 
@@ -143,20 +150,29 @@ public static int fun (int[] a, int i, int j){
 }
 ```
 
+Solution:
 
-
-### (c) Given the following predicates,
-
-M arry(x, y) x is married to y. 
-
-Love(x, y) x loves y.
-
-use them to encode the following sentence into an SMT2 formula.
-
- If any two persons are married, then they must love each other.
+```dafny
+public static int fun (int[] a, int i, int j){
+	require 0<=i<=a.length;
+	require 0<=j<=a.length;
+	ensure s == sum{int i in(i,j); f(i)}
+	int s =0;
+	{s== sum{int i in(i,n); f(i)}} 
+	for (int n=i;n<j;n++) {
+		invariant s== sum{int i in(i,n); f(i)};
+		s+= a[n];
+	} 
+	{s== sum{int i in(i,n); f(i)} && n==j}; 
+	return s;
+}
+```
 
 ### (d) Define each of the following verification goals and show how each property can be expressed in temporal logic:
 
 - Reachability Property
+  - A reachability property states that some particular situation can be reached. 
 - Safety Property
+  - ![](../../.vuepress/public/img/CS357JANUARY2020EXAM4d-1.png)
 - Liveness Property
+  - ![](../../.vuepress/public/img/CS357JANUARY2020EXAM4d-2.png)
