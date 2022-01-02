@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Software Design CS264 Exam -- Singleton Pattern | 阿伟的博客</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/favicon.ico">
+    <script language="javascript" type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/MouseClickEffect.js"></script>
+    <meta name="description" content="设计模式考试资料——单例模式">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/assets/css/0.styles.847cd993.css" as="style"><link rel="preload" href="/assets/js/app.34cc0ff5.js" as="script"><link rel="preload" href="/assets/js/3.a6debd22.js" as="script"><link rel="preload" href="/assets/js/1.2f014e96.js" as="script"><link rel="preload" href="/assets/js/24.5b1ae18c.js" as="script"><link rel="prefetch" href="/assets/js/10.98c871a7.js"><link rel="prefetch" href="/assets/js/11.40bdd455.js"><link rel="prefetch" href="/assets/js/12.79c7365d.js"><link rel="prefetch" href="/assets/js/13.6f0ede8b.js"><link rel="prefetch" href="/assets/js/14.6683617b.js"><link rel="prefetch" href="/assets/js/15.3f427a25.js"><link rel="prefetch" href="/assets/js/16.d8cfde2b.js"><link rel="prefetch" href="/assets/js/17.ba559ff5.js"><link rel="prefetch" href="/assets/js/18.fb471090.js"><link rel="prefetch" href="/assets/js/19.a5fff9f3.js"><link rel="prefetch" href="/assets/js/20.0d7b1500.js"><link rel="prefetch" href="/assets/js/21.319b015f.js"><link rel="prefetch" href="/assets/js/22.d1183180.js"><link rel="prefetch" href="/assets/js/23.4e0fdf0c.js"><link rel="prefetch" href="/assets/js/25.392a6bda.js"><link rel="prefetch" href="/assets/js/26.a709da86.js"><link rel="prefetch" href="/assets/js/27.e49b9581.js"><link rel="prefetch" href="/assets/js/28.7708f3e0.js"><link rel="prefetch" href="/assets/js/29.ccf6967e.js"><link rel="prefetch" href="/assets/js/30.e9fa5d46.js"><link rel="prefetch" href="/assets/js/31.9cb78aff.js"><link rel="prefetch" href="/assets/js/32.203525ee.js"><link rel="prefetch" href="/assets/js/33.0299d914.js"><link rel="prefetch" href="/assets/js/34.c2915c3b.js"><link rel="prefetch" href="/assets/js/35.fea5fed3.js"><link rel="prefetch" href="/assets/js/36.c9387111.js"><link rel="prefetch" href="/assets/js/37.3a7f1d2f.js"><link rel="prefetch" href="/assets/js/38.9f9c5a87.js"><link rel="prefetch" href="/assets/js/39.28027155.js"><link rel="prefetch" href="/assets/js/4.9874b129.js"><link rel="prefetch" href="/assets/js/40.cc106e58.js"><link rel="prefetch" href="/assets/js/41.2e069b9e.js"><link rel="prefetch" href="/assets/js/42.acb19c6b.js"><link rel="prefetch" href="/assets/js/43.bf491e33.js"><link rel="prefetch" href="/assets/js/44.19e7fc69.js"><link rel="prefetch" href="/assets/js/45.6df0cbc0.js"><link rel="prefetch" href="/assets/js/46.cc2251ca.js"><link rel="prefetch" href="/assets/js/47.4a475194.js"><link rel="prefetch" href="/assets/js/48.6f40217c.js"><link rel="prefetch" href="/assets/js/49.cb316dd2.js"><link rel="prefetch" href="/assets/js/5.e8c24269.js"><link rel="prefetch" href="/assets/js/50.36f41cdb.js"><link rel="prefetch" href="/assets/js/51.4bf9617e.js"><link rel="prefetch" href="/assets/js/52.150a5e39.js"><link rel="prefetch" href="/assets/js/53.feedee87.js"><link rel="prefetch" href="/assets/js/54.dfa8dae2.js"><link rel="prefetch" href="/assets/js/55.daf37088.js"><link rel="prefetch" href="/assets/js/56.5f0146c9.js"><link rel="prefetch" href="/assets/js/57.6a8c9d3a.js"><link rel="prefetch" href="/assets/js/58.f0516de8.js"><link rel="prefetch" href="/assets/js/59.77dd3277.js"><link rel="prefetch" href="/assets/js/6.986e7602.js"><link rel="prefetch" href="/assets/js/60.be23ecf9.js"><link rel="prefetch" href="/assets/js/61.881f1dbd.js"><link rel="prefetch" href="/assets/js/7.de00202a.js"><link rel="prefetch" href="/assets/js/8.30b71324.js"><link rel="prefetch" href="/assets/js/9.5b101d95.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.847cd993.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-1156296a><div data-v-1156296a><div id="loader-wrapper" class="loading-wrapper" data-v-d48f4d20 data-v-1156296a data-v-1156296a><div class="loader-main" data-v-d48f4d20><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div></div> <!----> <!----></div> <div class="password-shadow password-wrapper-out" style="display:none;" data-v-4e82dffc data-v-1156296a data-v-1156296a><h3 class="title" data-v-4e82dffc data-v-4e82dffc>阿伟的博客</h3> <p class="description" data-v-4e82dffc data-v-4e82dffc>阿伟的第一个博客</p> <label id="box" class="inputBox" data-v-4e82dffc data-v-4e82dffc><input type="password" value="" data-v-4e82dffc> <span data-v-4e82dffc>Konck! Knock!</span> <button data-v-4e82dffc>OK</button></label> <div class="footer" data-v-4e82dffc data-v-4e82dffc><span data-v-4e82dffc><i class="iconfont reco-theme" data-v-4e82dffc></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-4e82dffc>vuePress-theme-reco</a></span> <span data-v-4e82dffc><i class="iconfont reco-copyright" data-v-4e82dffc></i> <a data-v-4e82dffc><span data-v-4e82dffc>赵建伟</span>
+            
+          <span data-v-4e82dffc>2021 - </span>
+          2022
+        </a></span></div></div> <div class="hide" data-v-1156296a><header class="navbar" data-v-1156296a><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/logo.png" alt="阿伟的博客" class="logo"> <span class="site-name">阿伟的博客</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/大三下/" class="nav-link"><i class="undefined"></i>
+  大三下
+</a></li><li class="dropdown-item"><!----> <a href="/categories/产品经理/" class="nav-link"><i class="undefined"></i>
+  产品经理
+</a></li><li class="dropdown-item"><!----> <a href="/categories/基础知识/" class="nav-link"><i class="undefined"></i>
+  基础知识
+</a></li><li class="dropdown-item"><!----> <a href="/categories/大三上/" class="nav-link"><i class="undefined"></i>
+  大三上
+</a></li><li class="dropdown-item"><!----> <a href="/categories/c/" class="nav-link"><i class="undefined"></i>
+  c
+</a></li><li class="dropdown-item"><!----> <a href="/categories/设计/" class="nav-link"><i class="undefined"></i>
+  设计
+</a></li><li class="dropdown-item"><!----> <a href="/categories/编译原理/" class="nav-link"><i class="undefined"></i>
+  编译原理
+</a></li><li class="dropdown-item"><!----> <a href="/categories/实验/" class="nav-link"><i class="undefined"></i>
+  实验
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算复杂性/" class="nav-link"><i class="undefined"></i>
+  计算复杂性
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算理论/" class="nav-link"><i class="undefined"></i>
+  计算理论
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/css/" class="nav-link"><i class="undefined"></i>
+  css
+</a></li><li class="dropdown-item"><!----> <a href="/categories/考研/" class="nav-link"><i class="undefined"></i>
+  考研
+</a></li><li class="dropdown-item"><!----> <a href="/categories/数据结构/" class="nav-link"><i class="undefined"></i>
+  数据结构
+</a></li><li class="dropdown-item"><!----> <a href="/categories/java/" class="nav-link"><i class="undefined"></i>
+  java
+</a></li><li class="dropdown-item"><!----> <a href="/categories/UI设计/" class="nav-link"><i class="undefined"></i>
+  UI设计
+</a></li><li class="dropdown-item"><!----> <a href="/categories/UE/UX设计/" class="nav-link"><i class="undefined"></i>
+  UE/UX设计
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Vue前端/" class="nav-link"><i class="undefined"></i>
+  Vue前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/设计模式/" class="nav-link"><i class="undefined"></i>
+  设计模式
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Leetcode/" class="nav-link"><i class="undefined"></i>
+  Leetcode
+</a></li><li class="dropdown-item"><!----> <a href="/categories/每日打卡/" class="nav-link"><i class="undefined"></i>
+  每日打卡
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  TimeLine
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      资源
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/docs/designDocs/CRI.html" class="nav-link"><i class="undefined"></i>
+  CRI
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      Contact
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/IanZhao29" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-1156296a></div> <aside class="sidebar" data-v-1156296a><div class="personal-info-wrapper" data-v-828910c6 data-v-1156296a><img src="/avatar.png" alt="author-avatar" class="personal-img" data-v-828910c6> <h3 class="name" data-v-828910c6>
+    赵建伟
+  </h3> <div class="num" data-v-828910c6><div data-v-828910c6><h3 data-v-828910c6>51</h3> <h6 data-v-828910c6>文章</h6></div> <div data-v-828910c6><h3 data-v-828910c6>27</h3> <h6 data-v-828910c6>标签</h6></div></div> <ul class="social-links" data-v-828910c6></ul> <hr data-v-828910c6></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/大三下/" class="nav-link"><i class="undefined"></i>
+  大三下
+</a></li><li class="dropdown-item"><!----> <a href="/categories/产品经理/" class="nav-link"><i class="undefined"></i>
+  产品经理
+</a></li><li class="dropdown-item"><!----> <a href="/categories/基础知识/" class="nav-link"><i class="undefined"></i>
+  基础知识
+</a></li><li class="dropdown-item"><!----> <a href="/categories/大三上/" class="nav-link"><i class="undefined"></i>
+  大三上
+</a></li><li class="dropdown-item"><!----> <a href="/categories/c/" class="nav-link"><i class="undefined"></i>
+  c
+</a></li><li class="dropdown-item"><!----> <a href="/categories/设计/" class="nav-link"><i class="undefined"></i>
+  设计
+</a></li><li class="dropdown-item"><!----> <a href="/categories/编译原理/" class="nav-link"><i class="undefined"></i>
+  编译原理
+</a></li><li class="dropdown-item"><!----> <a href="/categories/实验/" class="nav-link"><i class="undefined"></i>
+  实验
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算复杂性/" class="nav-link"><i class="undefined"></i>
+  计算复杂性
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算理论/" class="nav-link"><i class="undefined"></i>
+  计算理论
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/css/" class="nav-link"><i class="undefined"></i>
+  css
+</a></li><li class="dropdown-item"><!----> <a href="/categories/考研/" class="nav-link"><i class="undefined"></i>
+  考研
+</a></li><li class="dropdown-item"><!----> <a href="/categories/数据结构/" class="nav-link"><i class="undefined"></i>
+  数据结构
+</a></li><li class="dropdown-item"><!----> <a href="/categories/java/" class="nav-link"><i class="undefined"></i>
+  java
+</a></li><li class="dropdown-item"><!----> <a href="/categories/UI设计/" class="nav-link"><i class="undefined"></i>
+  UI设计
+</a></li><li class="dropdown-item"><!----> <a href="/categories/UE/UX设计/" class="nav-link"><i class="undefined"></i>
+  UE/UX设计
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Vue前端/" class="nav-link"><i class="undefined"></i>
+  Vue前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/设计模式/" class="nav-link"><i class="undefined"></i>
+  设计模式
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Leetcode/" class="nav-link"><i class="undefined"></i>
+  Leetcode
+</a></li><li class="dropdown-item"><!----> <a href="/categories/每日打卡/" class="nav-link"><i class="undefined"></i>
+  每日打卡
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  TimeLine
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      资源
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/docs/designDocs/CRI.html" class="nav-link"><i class="undefined"></i>
+  CRI
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      Contact
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/IanZhao29" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-4e82dffc data-v-1156296a><h3 class="title" data-v-4e82dffc data-v-4e82dffc>Software Design CS264 Exam -- Singleton Pattern</h3> <!----> <label id="box" class="inputBox" data-v-4e82dffc data-v-4e82dffc><input type="password" value="" data-v-4e82dffc> <span data-v-4e82dffc>Konck! Knock!</span> <button data-v-4e82dffc>OK</button></label> <div class="footer" data-v-4e82dffc data-v-4e82dffc><span data-v-4e82dffc><i class="iconfont reco-theme" data-v-4e82dffc></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-4e82dffc>vuePress-theme-reco</a></span> <span data-v-4e82dffc><i class="iconfont reco-copyright" data-v-4e82dffc></i> <a data-v-4e82dffc><span data-v-4e82dffc>赵建伟</span>
+            
+          <span data-v-4e82dffc>2021 - </span>
+          2022
+        </a></span></div></div> <div data-v-1156296a><main class="page" style="padding-right:0;"><section><div class="page-title"><h1 class="title">Software Design CS264 Exam -- Singleton Pattern</h1> <div data-v-1ff7123e><i class="iconfont reco-account" data-v-1ff7123e><span data-v-1ff7123e>赵建伟</span></i> <i class="iconfont reco-date" data-v-1ff7123e><span data-v-1ff7123e>2021/12/31</span></i> <!----> <i class="tags iconfont reco-tag" data-v-1ff7123e><span class="tag-item" data-v-1ff7123e>单例模式</span><span class="tag-item" data-v-1ff7123e>代码</span><span class="tag-item" data-v-1ff7123e>编程</span></i></div></div> <div class="theme-reco-content content__default"><h1 id="singleton-pattern"><a href="#singleton-pattern" class="header-anchor">#</a> Singleton Pattern</h1> <h2 id="concept"><a href="#concept" class="header-anchor">#</a> Concept</h2> <p>A class cannot have multiple instances. Once created, the next time onward, you use only the existing instance. This approach helps you restrict unnecessary object creations in a centralized system. The approach also promotes easy maintenance.</p> <h2 id="characteristics"><a href="#characteristics" class="header-anchor">#</a> Characteristics</h2> <ul><li>The constructor is private to prevent the use of a “new” operator.</li> <li>You’ll create an instance of the class, if you did not create any such instance earlier; otherwise, you’ll simply reuse the existing one.</li> <li>To take care of thread safety, I use the “synchronized” keyword.</li></ul> <h2 id="uml"><a href="#uml" class="header-anchor">#</a> UML</h2> <p><img src="/assets/img/SingletonPattern.06b9f80e.png" alt=""></p> <h2 id="code"><a href="#code" class="header-anchor">#</a> Code</h2> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SingletonPattern</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment">//        Captain captain = new Captain();//Not allowed</span>
+        <span class="token class-name">Captain</span> captain <span class="token operator">=</span> <span class="token class-name">Captain</span><span class="token punctuation">.</span><span class="token function">getCaptain</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Captain created&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Captain</span> captain1 <span class="token operator">=</span> <span class="token class-name">Captain</span><span class="token punctuation">.</span><span class="token function">getCaptain</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Trying to create another one&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>captain <span class="token operator">==</span> captain1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;We create only one&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;There are two!!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Captain</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">Captain</span> captain<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">Captain</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">synchronized</span> <span class="token class-name">Captain</span> <span class="token function">getCaptain</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>captain <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            captain <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Captain</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Creating new class&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;There exist one class, so we'll using the old one&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> captain<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br></div></div><h2 id="some-question"><a href="#some-question" class="header-anchor">#</a> Some question:</h2> <ol><li><p>Why add <code>synchronized</code> before the <code>getCaptain()</code> function?</p> <ol><li><p>In order to let this program work in multithreaded environment. In multithreaded environment, consider</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">if</span><span class="token punctuation">(</span>captain <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>If there is two thread reach this code, they will find that there is no instance, so they all creating the instance. As a result, two instance will be created, which lead to a failure.</p></li></ol></li> <li><p>Why use lazy initialization in the code?</p> <ol><li>Because the singleton instance will not be created until the getCaptain() method is called here.</li></ol></li> <li><p>What's lazy initialization?</p> <ol><li>Lazy initialization is not to initialize the instance until needed. This approach can be helpful when you deal with expensive processes to create an object.</li></ol></li> <li><p>Why are you making the class final?</p> <ol><li>Although we use private for the constructor, when we create a new class which can extend the <code>Captain</code> class, it can also use the constructor, and create two different instances.</li></ol></li></ol> <h2 id="other-implement"><a href="#other-implement" class="header-anchor">#</a> Other Implement</h2> <h3 id="eager-initialization"><a href="#eager-initialization" class="header-anchor">#</a> Eager Initialization</h3> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">class</span> <span class="token class-name">Captain</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">Captain</span> captain <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Captain</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+  <span class="token keyword">private</span> <span class="token class-name">Captain</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Instance created&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Captain</span> <span class="token function">getCaptain</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Instance has been created, use the old one&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> captain<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>Pros:</p> <ul><li>It is straightforward and cleaner.</li> <li>It is the opposite of lazy initialization but still thread safe.</li> <li>It has a small lag time when the application is in execution mode because everything is already loaded in memory.</li></ul> <p>Cons:</p> <ul><li>The application takes longer to start (compared to lazy initialization) because everything needs to be loaded first.</li></ul> <h3 id="bill-pugh-s"><a href="#bill-pugh-s" class="header-anchor">#</a> Bill Pugh's</h3> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">class</span> <span class="token class-name">Captain1</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token class-name">Captain1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;A captain is elected for you team.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">SingletonHelper</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">Captain1</span> captain <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Captain1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Captain1</span> <span class="token function">getCaptain</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token class-name">SingletonHelper</span><span class="token punctuation">.</span>captain<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>This method does not use a synchronization technique and eager initialization. Notice that the SingletonHelper class comes into consideration only when someone invokes the getCaptain() method. And this approach will not create any unwanted output if you just call any dummyMethod() from main(), as with the previous case (to examine the result, you need to uncomment the dummyMethod() body). It is also treated one of the common and standard methods for implementing singletons in Java.</p> <h3 id="double-checked-locking"><a href="#double-checked-locking" class="header-anchor">#</a> Double-Checked Locking</h3> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">Captain2</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">Captain2</span> captain<span class="token punctuation">;</span>
+  <span class="token keyword">static</span> <span class="token keyword">int</span> numberOfInstance <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token class-name">Captain2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    numberOfInstance<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Number of instance at this moment=&quot;</span><span class="token operator">+</span>numberofInstance<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Captain2</span> <span class="token function">getCaptain</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>captain <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">synchronized</span><span class="token punctuation">(</span><span class="token class-name">Captain2</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//Lazy initialization</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>captain <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          captain <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Captain2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;New captain is elected for your team.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">&quot;You already have a captain for your team.&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;Send him for the toss&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> captain<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><p>If you notice our synchronized implementation of the singleton pattern, you may find that synchronization operations are costly in general and the approach is useful for some initial threads that might break the singleton implementation. But in later phases, the synchronization operations might create additional overhead. To avoid that problem, you can use a synchronized block inside an if condition, to ensure that no unwanted instance is created.</p> <h2 id="when-to-consider-singleton-patterns"><a href="#when-to-consider-singleton-patterns" class="header-anchor">#</a> When to consider singleton patterns?</h2> <ul><li>In real-world scenarios, object creations are treated as costly operations.</li> <li>Sometimes you need to implement a centralized system for easy maintenance, because it can help you provide a global access mechanism.</li></ul></div></section> <footer class="page-edit"><!----> <!----></footer> <!----> <div class="comments-wrapper"><!----></div> <ul class="side-bar sub-sidebar-wrapper" style="width:0;" data-v-70334359></ul></main> <!----></div></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div></div></div>
+    <script src="/assets/js/app.34cc0ff5.js" defer></script><script src="/assets/js/3.a6debd22.js" defer></script><script src="/assets/js/1.2f014e96.js" defer></script><script src="/assets/js/24.5b1ae18c.js" defer></script>
+  </body>
+</html>

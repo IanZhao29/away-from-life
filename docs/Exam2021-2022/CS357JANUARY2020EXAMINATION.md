@@ -32,7 +32,31 @@ tags:
 1. A ∧ (B ∨ C) |- (A ∧ B) ∨ (A ∧ C)
 2. ∀x(P(x) → Q(x)), ∃x(P(x)) |- ∃x(Q(x))
 
-![](../../.vuepress/public/img/CS357JANUARY2020EXAMINATION1b.jpg)
+```nature
+Q1: A /\ (B \/ C) |- (A /\ B) \/ (A /\ C)
+		1. A /\ (B \/ C)		Premise
+		2. A 		/\e line 1.
+		3. B \/ C		/\e line1.
+		4. Assume B
+		5. A /\ B		/\I line2 and 4
+		6. (A /\ B) \/ (A /\ C)		\/I1 line8
+		7. Assume C
+		8. A /\ C		/\I line2 and 7
+		9. (A /\ B) \/ (A /\ C)		\/I1 line8
+		10. (A /\ B) \/ (A /\ C)		\/e line3, 4-9
+		11. Qed.
+		
+Q2: forall(x): P(x) -> Q(x), exist(x): P(x) |- exist(x): Q(x)
+		1. forall(x): P(x) -> Q(x)		premise
+		2. exist(x): P(x)		premise
+		3. x0		Assumption
+		4. P(x0)		Assumption
+		5. P(x0) -> Q(x)		forall(e) line1
+		6. Q(x0)		line 4,5
+		7. exist(x): Q(x)		exist(intro) line3 and 6
+		8. exist(x): Q(x)		exist(e) line3-7, 2
+		9. Qed(../../.vuepress/public/img/CS357JANUARY2020EXAMINATION1b.jpg)
+```
 
 ### (c) Explain precisely the difference between propositional logic and predicate logic. Provide examples to support your answer.
 
@@ -54,8 +78,23 @@ For example: (∀𝑥 (𝑃(𝑥) ∧ 𝑄(𝑥))) → (¬𝑃(𝑥) ∨ 𝑄(�
    - A proof system is complete if it allows us to prove all things which are actually true.
 3. S is consistent.
    - A proof system is consistent if it never allows us to prove both 𝜙 and ¬𝜙 for any formula 𝜙
-4. S is z.
+4. S is decidable.
    - A proof system is decidable if we can implement an algorithm* which, when given a formula 𝜙 as input will answer “yes” if 𝜙 is provable and “no” otherwise.
+
+补充：Equisatisfiable: Given two formulas 𝑋 and 𝑌, we say they are equisatisfiable if and only X and Y are satisfiable with the same model.
+
+For example:
+
+```nature
+𝑋 = 𝑎 ∨ 𝑏
+𝑌 = 𝑎 ∨ 𝑐 ∧ 𝑏 ∨ ¬𝑐
+Mod𝑒𝑙 𝑀 = {𝑎 ↦ 1, 𝑏 ↦ 0, 𝑐 ↦ 0}
+```
+
+- 𝑋 and 𝑌 are both satisfiable with the 𝑀𝑜𝑑𝑒𝑙 M
+- Therefore, 𝑋 and 𝑌 are equisatisfiable but they are not equal.
+
+Equisatisfiability is weaker than equivalence
 
 ### (b) Given any propositional boolean formula, one can always convert it into CNF [9 marks] by using the following three rules:
 
@@ -68,7 +107,6 @@ Clearly show that how to convert the following boolean formula into CNF by using
 (x1 ⊕ x2) ∧ (x3 ⊕ ¬x2)
 
 **Solution**: a⊕b = （¬a ∧ b） ∨ （a ∧¬b）
-
 ![](../../.vuepress/public/img/CS357JANUARY2020EXAMINATION2b-1.jpg)
 ![](../../.vuepress/public/img/CS357JANUARY2020EXAMINATION2b-2.jpg)
 
@@ -92,7 +130,7 @@ Clearly show that how to convert the following boolean formula into CNF by using
 
 ### (a) Use an example to illustrate the difference between proving partial and total correctness for a loop structure. To be precise, what is required in order to prove total correctness?
 
-partial correctness requires that *if* an answer is returned it will be correct, is distinguished from total correctness, which additionally requires that an answer *is* eventually returned, i.e. the algorithm terminates.
+Partial correctness requires that *if* an answer is returned it will be correct, is distinguished from total correctness, which additionally requires that an answer *is* eventually returned, i.e. the algorithm terminates.
 
 Correspondingly, to prove a program's total correctness, it is sufficient to prove its partial correctness, and its termination
 
@@ -107,10 +145,23 @@ if (a-1 ==0){
 }
 ```
 
-The precondition here is T rue, and postcondition is y = x + 1.
+The precondition here is True, and postcondition is y = x + 1.
 
-![](../../.vuepress/public/img/CS357JANUARY2020EXAMINATION3b-1.jpg)
-![](../../.vuepress/public/img/CS357JANUARY2020EXAMINATION3b-2.jpg)
+``` dafny
+{true}
+a = x+1
+if(a-1 == 0) 
+then
+	{true /\ a-1 == 0}
+		=> {x==0}//True since a = x+1
+				y=1
+				{y = x+1}
+else
+{true /\ a-1 != 0}
+	=> {a = x+1}
+			y = a
+		 {y = x+1}
+```
 
 ### (c) Use Hoare logic to verify the partial correctness of the following program:
 
@@ -132,13 +183,40 @@ Solution:
 3. Step 3: Use Hoare rule for assign and ; to work out loop body (preservation) and initialisation (establishment) conditions 
 4. Step 4: Simplify and show equivalence (or implication) where two assertions are alongside each other. This is usually at the preconditions for where we establish the invariant before the loop (Establishment) and inside the loop (preservation).
 
-![](../../.vuepress/public/img/CS357JANUARY2020EXAMINATION3c.jpg)
+```dafny
+{x>=0}//precondition
+	=>{x>=0 /\ x == x}
+		-> {x == x}//by concequence rule
+{x == x}//by assign
+a = x;
+{x = a}//by assign & compose
+y = 0;
+{x = y+a}//Invariant
+while(a!=0)
+{
+	{x = y+a /\ a!=0}//Invariant and Guard
+		-> {x = y+a}//by concequence rule
+	{x = y+a}//by assume & compose
+	y = y+1
+	{x = y+a-1}//by assume
+	a = a-1
+	{x = y+a}//Invariant
+}
+{x = y+a /\ a==0}//Invariant and Not
+{x = y}//postcondition
+```
 
 ## 4.
 
 ### (a) Explain the main difference between SAT solvers and SMT solvers.
 
-SAT solvers solve constraints involving(written in) propositional logic. SMT solvers can solve constraints involving propositional logic. Additionally it can solve constraints involving(written in) predicate logic with quantifiers.
+SAT solvers solve constraints involving(written in) propositional logic. 
+
+SMT solvers can solve constraints involving propositional logic. Additionally it can solve constraints involving(written in) predicate logic with quantifiers.
+
+其他考点：SAT solvers: A SAT solver can read in your CNF formulas in Dimacsformat, and find a model for your theory (if there exists one)
+
+SMT: An SMT Solver is a collection of Little Engines of Proof. SAT + Theory Solvers = SMT
 
 ### (b) Use Spec# annotations to write the pre/post condition(s) and loop invariant(s) for the following program.
 
